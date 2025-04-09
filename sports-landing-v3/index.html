@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Eventos Deportivos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <img src="https://gamebet24.com/wp-content/uploads/2025/02/apuestas-deportivas.jpg" alt="Banner 1">
+      <img src="https://gamebet24.com/wp-content/uploads/2025/02/Casino-online.jpg" alt="Banner 2">
+      <img src="https://via.placeholder.com/728x90?text=Banner+3" alt="Banner 3">
+    </div>
+   
+  </div>
+  <nav>
+    <ul id="sportsNav">
+      <li data-sport="football" class="active">⚽ Fútbol</li>
+      <li data-sport="basketball">🏀 Baloncesto</li>
+    </ul>
+  </nav>
+
+  <div id="filters">
+    <button data-filter="all" class="active">Todos</button>
+    <button data-filter="inprogress">🟢 En Vivo</button>
+    <button data-filter="finished">🔴 Finalizados</button>
+    <button data-filter="notstarted">⏳ Próximos</button>
+  </div>
+
+  <main class="main-grid">
+    <section>
+      <h1 id="titulo-deporte">Eventos de Fútbol Hoy</h1>
+      <div id="matches">Cargando partidos...</div>
+      <div id="pagination" class="pagination"></div>
+
+    </section>
+
+    <aside>
+
+      <div class="cta-box">
+        <h3>📬 ¿Quieres recibir más Informacion?</h3>
+        <form action="https://formspree.io/f/mnqewjyg" method="POST">
+          <input type="email" name="email" placeholder="Tu correo electrónico" required>
+          <button type="submit">Suscribirme</button>
+        </form>
+      </div>
+      <h2>📰 Noticias</h2>
+      <div id="articles">Cargando artículos...</div>
+
+     
+    </aside>
+   
+  </main>
+  <div id="article-modal" class="hidden">
+    <div id="article-modal-content">
+      <h2 id="modal-article-title"></h2>
+      <div id="modal-article-body"></div>
+      <button onclick="document.getElementById('article-modal').classList.add('hidden')">Cerrar</button>
+    </div>
+  </div>
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
