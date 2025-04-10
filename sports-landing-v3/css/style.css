@@ -1,9 +1,14 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+/* body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: #f4f4f4;
+} */
+body {
+  margin: 0;
+  font-family: 'Kanit', sans-serif;
+  background: #f4f4f4;
 }
-
 .banner-container {
   overflow: hidden;
   background: #000;
@@ -68,14 +73,14 @@ nav li.active {
   padding: 10px 15px;
   border: none;
   border-radius: 8px;
-  background: #ddd;
+  background: black;
   cursor: pointer;
   transition: background 0.3s;
 }
 
 #filters button:hover,
 #filters button.active {
-  background: #007bff;
+  background: #3b00d8;
   color: white;
 }
 
@@ -98,20 +103,21 @@ nav li.active {
 .teams {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 40px;
+  text-align: center;
 }
-
 .team {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
 }
 
+
 .team img {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
 }
 
@@ -119,7 +125,7 @@ nav li.active {
   background: #f0f4f8;
   padding: 10px;
   margin-top: 10px;
-  border-left: 4px solid #007bff;
+  border-left: 4px solid #3b00d8;
   border-radius: 10px;
   display: none;
 }
@@ -150,12 +156,12 @@ aside h2 {
 
 .article a {
   text-decoration: none;
-  color: #007bff;
+  color: #3b00d8;
 }
 
 .cta-box {
   margin-top: 20px;
-  background: #e6f0ff;
+  background: #1a1a1a;
   padding: 15px;
   border-radius: 8px;
 }
@@ -173,7 +179,7 @@ aside h2 {
   width: 100%;
   height: 70px;
   padding: 10px;
-  background: #007bff;
+  background: #3b00d8;
   color: white;
   border: none;
   border-radius: 6px;
@@ -222,7 +228,7 @@ aside h2 {
 
 #article-modal button {
   margin-top: 15px;
-  background-color: #007bff;
+  background-color: #3b00d8;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -246,9 +252,10 @@ aside h2 {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 450px;
+  height: 500px;
   margin: 0 auto;
   border-radius: 8px;
+  padding-top: 10px;
 }
 
 .carousel-track {
@@ -258,34 +265,24 @@ aside h2 {
 }
 
 .carousel-track img {
+  
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  object-fit: contain;
+  padding-top: 10px;
   flex-shrink: 0;
 }
 
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.4);
-  color: white;
-  border: none;
-  font-size: 24px;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 10;
+.carousel-track a {
+  
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ border-radius: 10px;
+  flex-shrink: 0;
 }
 
-.carousel-btn.prev {
-  left: 10px;
-}
 
-.carousel-btn.next {
-  right: 10px;
-}
 
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
@@ -311,6 +308,7 @@ aside h2 {
 
   .carousel-container {
     height: 250px;
+    margin-top: 20px;
   }
 
   #article-modal-content {
@@ -398,7 +396,23 @@ aside h2 {
 
 .pagination button.active,
 .pagination button:hover {
-  background-color: #3498db;
+  background-color: #3b00d8;
   color: white;
 }
+button {
+  background-color: #000;      
+  color: #fff;
+  border: none;                 
+  padding: 10px 20px;
+  font-family: 'Kanit', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;          
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #222;       
+}
+
 

@@ -10,6 +10,8 @@ let currentSport = 'football';
 let allMatches = [];
 let currentPage = 1;
 const matchesPerPage = 10;
+const maxVisiblePages = 10; 
+let paginationBlock = 0;    
 const paginationContainer = document.getElementById('pagination'); 
 
 
@@ -112,7 +114,7 @@ function renderMatches(filter) {
       <div class="league"><strong>${match.tournament.name}</strong></div>
       <div class="teams">
         <div class="team"><img src="${homeImg}" alt="home">${match.homeTeam.name}</div>
-        <span>vs</span>
+        <span style="font-size:55px;  font-family: 'Kanit', sans-serif; color: #3b00d8;">vs</span>
         <div class="team"><img src="${awayImg}" alt="away">${match.awayTeam.name}</div>
       </div>
       <div>🕒 ${new Date(match.startTimestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}${scoreText}</div>
@@ -126,44 +128,88 @@ function renderMatches(filter) {
   renderPagination(filtered.length);
 }
 
+// function renderPagination(totalItems) {
+//   paginationContainer.innerHTML = '';
+
+//   const totalPages = Math.ceil(totalItems / matchesPerPage);
+
+//   if (totalPages <= 1) return;
+
+//   const prevBtn = document.createElement('button');
+//   prevBtn.textContent = 'Anterior';
+//   prevBtn.disabled = currentPage === 1;
+//   prevBtn.onclick = () => {
+//     currentPage--;
+//     renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
+//   };
+
+//   paginationContainer.appendChild(prevBtn);
+
+//   for (let i = 1; i <= totalPages; i++) {
+//     const pageBtn = document.createElement('button');
+//     pageBtn.textContent = i;
+//     if (i === currentPage) pageBtn.classList.add('active');
+//     pageBtn.onclick = () => {
+//       currentPage = i;
+//       renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
+//     };
+//     paginationContainer.appendChild(pageBtn);
+//   }
+
+//   const nextBtn = document.createElement('button');
+//   nextBtn.textContent = 'Siguiente';
+//   nextBtn.disabled = currentPage === totalPages;
+//   nextBtn.onclick = () => {
+//     currentPage++;
+//     renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
+//   };
+
+//   paginationContainer.appendChild(nextBtn);
+// }
 function renderPagination(totalItems) {
   paginationContainer.innerHTML = '';
 
   const totalPages = Math.ceil(totalItems / matchesPerPage);
-
   if (totalPages <= 1) return;
 
-  const prevBtn = document.createElement('button');
-  prevBtn.textContent = 'Anterior';
-  prevBtn.disabled = currentPage === 1;
-  prevBtn.onclick = () => {
-    currentPage--;
-    renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
-  };
+  const startPage = paginationBlock * maxVisiblePages + 1;
+  const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
 
-  paginationContainer.appendChild(prevBtn);
+  // Botón Anterior del bloque
+  if (paginationBlock > 0) {
+    const blockPrev = document.createElement('button');
+    blockPrev.textContent = '◀';
+    blockPrev.onclick = () => {
+      paginationBlock--;
+      renderPagination(totalItems);
+    };
+    paginationContainer.appendChild(blockPrev);
+  }
 
-  for (let i = 1; i <= totalPages; i++) {
-    const pageBtn = document.createElement('button');
-    pageBtn.textContent = i;
-    if (i === currentPage) pageBtn.classList.add('active');
-    pageBtn.onclick = () => {
+  // Botones de páginas
+  for (let i = startPage; i <= endPage; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === currentPage) btn.classList.add('active');
+    btn.onclick = () => {
       currentPage = i;
       renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
     };
-    paginationContainer.appendChild(pageBtn);
+    paginationContainer.appendChild(btn);
   }
 
-  const nextBtn = document.createElement('button');
-  nextBtn.textContent = 'Siguiente';
-  nextBtn.disabled = currentPage === totalPages;
-  nextBtn.onclick = () => {
-    currentPage++;
-    renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
-  };
-
-  paginationContainer.appendChild(nextBtn);
+  // Botón Siguiente del bloque
+  if (endPage < totalPages) {
+    const blockNext = document.createElement('button');
+    blockNext.textContent = '▶';
+    blockNext.onclick = () => {
+      paginationBlock++;
+      renderPagination(totalItems);
+    };
+    paginationContainer.appendChild(blockNext);
+  }
 }
+
 
 async function toggleDetails(id) {
   const detailDiv = document.getElementById(`details-${id}`);
