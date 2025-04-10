@@ -81,7 +81,7 @@ nav li.active {
 #filters button:hover,
 #filters button.active {
   background: #3b00d8;
-  color: white;
+  color: black;
 }
 
 .main-grid {

@@ -128,44 +128,7 @@ function renderMatches(filter) {
   renderPagination(filtered.length);
 }
 
-// function renderPagination(totalItems) {
-//   paginationContainer.innerHTML = '';
 
-//   const totalPages = Math.ceil(totalItems / matchesPerPage);
-
-//   if (totalPages <= 1) return;
-
-//   const prevBtn = document.createElement('button');
-//   prevBtn.textContent = 'Anterior';
-//   prevBtn.disabled = currentPage === 1;
-//   prevBtn.onclick = () => {
-//     currentPage--;
-//     renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
-//   };
-
-//   paginationContainer.appendChild(prevBtn);
-
-//   for (let i = 1; i <= totalPages; i++) {
-//     const pageBtn = document.createElement('button');
-//     pageBtn.textContent = i;
-//     if (i === currentPage) pageBtn.classList.add('active');
-//     pageBtn.onclick = () => {
-//       currentPage = i;
-//       renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
-//     };
-//     paginationContainer.appendChild(pageBtn);
-//   }
-
-//   const nextBtn = document.createElement('button');
-//   nextBtn.textContent = 'Siguiente';
-//   nextBtn.disabled = currentPage === totalPages;
-//   nextBtn.onclick = () => {
-//     currentPage++;
-//     renderMatches(document.querySelector('#filters .active')?.dataset.filter || 'all');
-//   };
-
-//   paginationContainer.appendChild(nextBtn);
-// }
 function renderPagination(totalItems) {
   paginationContainer.innerHTML = '';
 
@@ -241,24 +204,7 @@ async function toggleDetails(id) {
   }
 }
 
-// async function loadArticles() {
-//   try {
-//     const articles = await getArticles();
-//     articles.forEach(post => {
-//       const article = document.createElement('div');
-//       article.classList.add('article');
-//       const image = post.yoast_head_json?.og_image?.[0]?.url || 'https://via.placeholder.com/300';
-//       article.innerHTML = `
-//         <img src="${image}" alt="Articulo">
-//         <h4>${post.title.rendered}</h4>
-//         <a href="${post.link}" target="_blank">Leer más</a>
-//       `;
-//       articlesContainer.appendChild(article);
-//     });
-//   } catch (err) {
-//     articlesContainer.innerHTML = 'No se pudieron cargar artículos.';
-//   }
-// }
+
 async function loadArticles() {
   try {
     const articles = await getArticles();
