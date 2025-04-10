@@ -114,7 +114,7 @@ function renderMatches(filter) {
       <div class="league"><strong>${match.tournament.name}</strong></div>
       <div class="teams">
         <div class="team"><img src="${homeImg}" alt="home">${match.homeTeam.name}</div>
-        <span style="font-size:55px;  font-family: 'Kanit', sans-serif; color: #3b00d8;">vs</span>
+        <span class="vs" style="font-size:55px;  font-family: 'Kanit', sans-serif; color: #3b00d8; ">vs</span>
         <div class="team"><img src="${awayImg}" alt="away">${match.awayTeam.name}</div>
       </div>
       <div>🕒 ${new Date(match.startTimestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}${scoreText}</div>

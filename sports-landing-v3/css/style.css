@@ -1,14 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
-/* body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f4f4;
-} */
+
 body {
   margin: 0;
   font-family: 'Kanit', sans-serif;
   background: #f4f4f4;
 }
+
+/* ==== BANNERS ==== */
 .banner-container {
   overflow: hidden;
   background: #000;
@@ -33,6 +31,7 @@ body {
   100% { transform: translateX(-100%); }
 }
 
+/* ==== NAV ==== */
 nav {
   background-color: #1a1a1a;
   padding: 10px 0;
@@ -61,6 +60,7 @@ nav li.active {
   background-color: #333;
 }
 
+/* ==== FILTERS ==== */
 #filters {
   display: flex;
   justify-content: center;
@@ -81,9 +81,10 @@ nav li.active {
 #filters button:hover,
 #filters button.active {
   background: #3b00d8;
-  color: black;
+  color: white;
 }
 
+/* ==== LAYOUT ==== */
 .main-grid {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -91,6 +92,7 @@ nav li.active {
   padding: 20px;
 }
 
+/* ==== MATCH CARDS ==== */
 .match {
   background: white;
   border-radius: 12px;
@@ -100,27 +102,37 @@ nav li.active {
   cursor: pointer;
 }
 
+/* ==== TEAMS + VS ==== */
 .teams {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 40px;
+  gap: 20px;
   text-align: center;
+  margin: 10px 0;
 }
+
 .team {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
-
 
 .team img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
+  max-width: 60px;
+  height: auto;
+  margin-bottom: 5px;
 }
 
+.vs {
+  font-size: 55px;
+  font-family: 'Kanit', sans-serif;
+  color: #3b00d8;
+}
+
+/* ==== DETAILS ==== */
 .details-card {
   background: #f0f4f8;
   padding: 10px;
@@ -130,6 +142,7 @@ nav li.active {
   display: none;
 }
 
+/* ==== SIDEBAR ==== */
 aside {
   background: #fff;
   border-radius: 12px;
@@ -159,6 +172,7 @@ aside h2 {
   color: #3b00d8;
 }
 
+/* ==== CTA ==== */
 .cta-box {
   margin-top: 20px;
   background: #1a1a1a;
@@ -186,6 +200,7 @@ aside h2 {
   cursor: pointer;
 }
 
+/* ==== MODAL ==== */
 #article-modal {
   position: fixed;
   top: 0;
@@ -248,6 +263,7 @@ aside h2 {
   }
 }
 
+/* ==== CAROUSEL ==== */
 .carousel-container {
   position: relative;
   overflow: hidden;
@@ -265,7 +281,6 @@ aside h2 {
 }
 
 .carousel-track img {
-  
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -274,17 +289,63 @@ aside h2 {
 }
 
 .carousel-track a {
-  
   width: 100%;
   height: 100%;
   object-fit: cover;
- border-radius: 10px;
+  border-radius: 10px;
   flex-shrink: 0;
 }
 
+/* ==== PAGINATION ==== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
+.pagination button {
+  padding: 8px 12px;
+  border: none;
+  background-color: black;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
 
-/* === RESPONSIVE === */
+.pagination button.active,
+.pagination button:hover {
+  background-color: #3b00d8;
+  color: white;
+}
+
+/* ==== BOTONES ==== */
+button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-family: 'Kanit', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #222;
+}
+
+/* ==== BANNER RESPONSIVE ==== */
+.banner-desktop {
+  display: block;
+}
+
+.banner-mobile {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .main-grid {
     grid-template-columns: 1fr;
@@ -318,6 +379,20 @@ aside h2 {
   .banner-track img {
     height: 70px;
   }
+
+  .banner-desktop {
+    display: none;
+  }
+
+  .banner-mobile {
+    display: block;
+  }
+
+  .banner-mobile img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -348,12 +423,11 @@ aside h2 {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
   }
-  
+
   #filters button {
     flex-shrink: 0;
     scroll-snap-align: start;
   }
-  
 
   .cta-box {
     padding: 10px;
@@ -377,42 +451,3 @@ aside h2 {
     object-fit: cover;
   }
 }
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.pagination button {
-  padding: 8px 12px;
-  border: none;
-  background-color: #eee;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.pagination button.active,
-.pagination button:hover {
-  background-color: #3b00d8;
-  color: white;
-}
-button {
-  background-color: #000;      
-  color: #fff;
-  border: none;                 
-  padding: 10px 20px;
-  font-family: 'Kanit', sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 4px;          
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: #222;       
-}
-
-
