@@ -1,4 +1,4 @@
-import { getMatches, getStats, getTeamImage, getArticles } from './api.js';
+import { getMatches, getStats, getTeamImage, getArticles,handler } from './api.js';
 
 const matchesContainer = document.getElementById('matches');
 const navItems = document.querySelectorAll('#sportsNav li');
@@ -263,9 +263,43 @@ function moveCarousel(direction) {
 
   track.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
+function setupSubscriptionForm() {
+  const form = document.getElementById("subscriptionForm");
+  const messageDiv = document.getElementById("formMessage");
+
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        messageDiv.textContent = "¡Gracias por suscribirte!";
+        form.reset();
+      } else {
+        messageDiv.textContent = `Error: ${result.message}`;
+      }
+    } catch (err) {
+      console.error("Error en suscripción:", err);
+      messageDiv.textContent = "Error al conectar con el servidor";
+    }
+  });
+}
 
 // Opcional: autoplay
 setInterval(() => moveCarousel(1), 5000);
 loadMatches(currentSport);
 loadArticles();
 window.loadArticleBySlug = loadArticleBySlug;
+setupSubscriptionForm();
