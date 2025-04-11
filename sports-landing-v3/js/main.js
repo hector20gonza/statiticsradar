@@ -1,4 +1,4 @@
-import { getMatches, getStats, getTeamImage, getArticles,handler } from './api.js';
+import { getMatches, getStats, getTeamImage, getArticles } from './api.js';
 
 const matchesContainer = document.getElementById('matches');
 const navItems = document.querySelectorAll('#sportsNav li');
@@ -302,4 +302,4 @@ setInterval(() => moveCarousel(1), 5000);
 loadMatches(currentSport);
 loadArticles();
 window.loadArticleBySlug = loadArticleBySlug;
-setupSubscriptionForm(handler);
+setupSubscriptionForm();
