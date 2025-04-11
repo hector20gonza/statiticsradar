@@ -302,4 +302,4 @@ setInterval(() => moveCarousel(1), 5000);
 loadMatches(currentSport);
 loadArticles();
 window.loadArticleBySlug = loadArticleBySlug;
-setupSubscriptionForm();
+setupSubscriptionForm(handler);
