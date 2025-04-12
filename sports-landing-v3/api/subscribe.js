@@ -13,6 +13,8 @@ export default async function handler(req, res) {
   try {
     const brevoApiKey = process.env.BREVO_API_KEY;
     const brevoListId = parseInt(process.env.BREVO_LIST_ID, 10);
+    console.log('API Key:', process.env.BREVO_API_KEY);
+console.log('List ID:', process.env.BREVO_LIST_ID);
 
     const response = await fetch("https://api.brevo.com/v3/contacts", {
       method: "POST",
@@ -36,8 +38,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ message: "Suscripción exitosa", data });
   } catch (error) {
     console.error("Error en suscripción:", error);
-    return res.status(500).json({ message: "Error interno del servidor" });
+    return res.status(500).json({ message: "Error interno del servidor ok" });
   }
 }
-console.log('API Key:', process.env.BREVO_API_KEY);
-console.log('List ID:', process.env.BREVO_LIST_ID);
