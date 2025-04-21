@@ -20,6 +20,6 @@ export function getTeamImage(teamId) {
 }
 
 export async function getArticles() {
-  const res = await fetch("https://blog.juegaenlinea.com/wp-json/wp/v2/posts?offset=0&per_page=6");
+  const res = await fetch(" https://blog.juegaenlinea.com/wp-json/wp/v2/posts?offset=0&per_page=6");
   return await res.json();
 }
