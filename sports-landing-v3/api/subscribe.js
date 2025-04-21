@@ -24,11 +24,11 @@ export default async function handler(req, res) {
         "Content-Type": "application/json",
         "api-key": brevoApiKey
       },
-      body: {
+      body: JSON.stringify({
         email: email,
-        listIds: brevoListId,
+        listIds: [brevoListId],
         updateEnabled: true
-      }
+      })
     });
 
     const data = await response.json();
