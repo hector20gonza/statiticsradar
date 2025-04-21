@@ -1,7 +1,7 @@
-// --- IMPORTACIONES ---
+
 import { getMatches, getStats, getTeamImage, getArticles } from './api.js';
 
-// --- ELEMENTOS DEL DOM ---
+
 const matchesContainer = document.getElementById('matches');
 const navItems = document.querySelectorAll('#sportsNav li');
 const filterButtons = document.querySelectorAll('#filters button');
@@ -9,7 +9,7 @@ const title = document.getElementById('titulo-deporte');
 const articlesContainer = document.getElementById('articles');
 const paginationContainer = document.getElementById('pagination');
 
-// --- VARIABLES GLOBALES ---
+
 let currentSport = '1';
 let allMatches = [];
 let currentPage = 1;
@@ -18,7 +18,7 @@ const maxVisiblePages = 10;
 let paginationBlock = 0;
 let currentIndex = 0;
 
-// --- EVENTOS DE NAVEGACIÓN POR DEPORTE ---
+
 navItems.forEach(item => {
   item.addEventListener('click', () => {
     navItems.forEach(i => i.classList.remove('active'));
@@ -29,7 +29,7 @@ navItems.forEach(item => {
   });
 });
 
-// --- EVENTOS DE FILTRO (en vivo, finalizado, próximo) ---
+
 filterButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     filterButtons.forEach(b => b.classList.remove('active'));
@@ -38,7 +38,7 @@ filterButtons.forEach(btn => {
   });
 });
 
-// --- FUNCIÓN PRINCIPAL: CARGA DE PARTIDOS ---
+
 async function loadMatches(sport) {
   matchesContainer.innerHTML = 'Cargando eventos...';
   try {
@@ -82,9 +82,10 @@ function renderMatches(filter) {
     const scoreawayCompetitor = match.awayCompetitor?.score || 0;
     const matchTime = new Date(match.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const matchState = match.statusText || 'Sin hora';  
- const competitionDisplayName =match.competitionDisplayName;
+    const competitionDisplayName =match.competitionDisplayName;
     const hasOdds = match.odds?.length > 0;
-   
+    const idCompetitor= match.homeCompetitor.id;
+    const idAwayCompetitor= match.awayCompetitor.id;
     const score = (matchState === 'inprogress' || matchState === 'finished')
       ? `(${match.homeScore?.current ?? 0} - ${match.awayScore?.current ?? 0})`
       : '';
@@ -107,7 +108,7 @@ function renderMatches(filter) {
       <div class="details-card" id="details-${match.id}" style="display: none;">Cargando detalles...</div>
     `;
 
-    div.addEventListener('click', () => toggleDetails(match.id));
+    div.addEventListener('click', () => toggleDetails(match.id, idCompetitor, idAwayCompetitor));
     matchesContainer.appendChild(div);
   });
 
@@ -156,8 +157,8 @@ function renderPagination(totalItems) {
   }
 }
 
-// --- DETALLES DE PARTIDO (STATS) ---
-async function toggleDetails(id) {
+
+async function toggleDetails(id, homeCompetitorId, awayCompetitorId) {
   const detailDiv = document.getElementById(`details-${id}`);
   const isVisible = detailDiv.style.display === 'block';
 
@@ -170,20 +171,94 @@ async function toggleDetails(id) {
     const stats = await getStats(id);
     detailDiv.innerHTML = '';
 
-    stats.forEach(group => {
-      group.groups.forEach(statGroup => {
-        statGroup.statistics.forEach(item => {
-          const line = document.createElement('div');
-          line.innerHTML = `<strong>${item.name}</strong>: ${item.competitorId} `;
-          detailDiv.appendChild(line);
-        });
-      });
+    const statsComp = stats.filter(stat => 
+      stat.competitorId === homeCompetitorId || 
+      stat.competitorId === awayCompetitorId
+    );
+
+    
+    const statsByName = {};
+    statsComp.forEach(stat => {
+      if (!statsByName[stat.name]) {
+        statsByName[stat.name] = {};
+      }
+      statsByName[stat.name][stat.competitorId] = stat.value;
     });
+
+  
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.marginTop = '10px';
+    
+   
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    
+    const homeHeader = document.createElement('th');
+    homeHeader.textContent = 'Local';
+    homeHeader.style.textAlign = 'center';
+    homeHeader.style.padding = '8px';
+    homeHeader.style.borderBottom = '1px solid #ddd';
+    
+    const statHeader = document.createElement('th');
+    statHeader.textContent = 'Estadística';
+    statHeader.style.textAlign = 'center';
+    statHeader.style.padding = '8px';
+    statHeader.style.borderBottom = '1px solid #ddd';
+    
+    const awayHeader = document.createElement('th');
+    awayHeader.textContent = 'Visitante';
+    awayHeader.style.textAlign = 'center';
+    awayHeader.style.padding = '8px';
+    awayHeader.style.borderBottom = '1px solid #ddd';
+    
+    headerRow.appendChild(homeHeader);
+    headerRow.appendChild(statHeader);
+    headerRow.appendChild(awayHeader);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+  
+    const tbody = document.createElement('tbody');
+    
+    for (const statName in statsByName) {
+      const row = document.createElement('tr');
+      row.style.borderBottom = '1px solid #eee';
+      
+   
+      const homeCell = document.createElement('td');
+      homeCell.textContent = statsByName[statName][homeCompetitorId] || '-';
+      homeCell.style.textAlign = 'center';
+      homeCell.style.padding = '8px';
+      
+     
+      const nameCell = document.createElement('td');
+      nameCell.textContent = statName;
+      nameCell.style.textAlign = 'center';
+      nameCell.style.padding = '8px';
+      nameCell.style.fontWeight = 'bold';
+      
+      
+      const awayCell = document.createElement('td');
+      awayCell.textContent = statsByName[statName][awayCompetitorId] || '-';
+      awayCell.style.textAlign = 'center';
+      awayCell.style.padding = '8px';
+      
+      row.appendChild(homeCell);
+      row.appendChild(nameCell);
+      row.appendChild(awayCell);
+      tbody.appendChild(row);
+    }
+    
+    table.appendChild(tbody);
+    detailDiv.appendChild(table);
+
   } catch (err) {
     detailDiv.innerHTML = 'No se pudieron cargar estadísticas.';
+    console.error(err);
   }
 }
-
 
 // --- CARGA DE ARTÍCULOS DESDE WORDPRESS ---
 async function loadArticles() {
@@ -262,6 +337,9 @@ function setupSubscriptionForm() {
 
       const result = await response.json();
       messageDiv.textContent = response.ok ? "¡Gracias por suscribirte!" : `Error: ${result.message}`;
+if (response.ok) {
+    alert("¡Gracias por suscribirte!"); 
+}
       if (response.ok) form.reset();
     } catch (err) {
       console.error("Error en suscripción:", err);
@@ -275,4 +353,4 @@ setInterval(() => moveCarousel(1), 5000);
 loadMatches(currentSport);
 loadArticles();
 window.loadArticleBySlug = loadArticleBySlug;
-// setupSubscriptionForm();
+ setupSubscriptionForm();

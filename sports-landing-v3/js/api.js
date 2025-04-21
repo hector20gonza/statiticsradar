@@ -5,15 +5,14 @@ export async function getMatches(sport) {
   const url = `https://webws.365scores.com/web/games/allscores/?appTypeId=5&langId=14&timezoneName=America/Caracas&userCountryId=110&sports=${sport}&startDate=${today}&endDate=${today}&showOdds=true&onlyMajorGames=true&withTop=true&topBookmaker=16"`;
   const res = await fetch(url);
   const {games}= await res.json();
-  // console.log("Estructura completa:", JSON.stringify(games, null, 2));
+ 
   return games;
 }
 
 export async function getStats(eventId) {
-  // const res = await fetch(`https://api.sofascore.com/api/v1/event/${eventId}/statistics`);
  const res2= await fetch( `https://webws.365scores.com/web/stats/preGame?appTypeId=5&langId=14&timezoneName=America/Caracas&userCountryId=110&game=${eventId}&topBookmaker=16`)
-  const data = await res2.json();
-  return data.statistics;
+  const {statistics} = await res2.json();
+  return statistics;
 }
 
 export function getTeamImage(teamId) {
