@@ -336,7 +336,7 @@ function setupSubscriptionForm() {
       });
 
       const result = await response.json();
-      messageDiv.textContent = response.ok ? "¡Gracias por suscribirte!" : `Error: ${result.message}`;
+      messageDiv.textContent = response.ok? "¡Gracias por suscribirte!" : `Error: ${result.message}`;
 if (response.ok) {
     alert("¡Gracias por suscribirte!"); 
 }
