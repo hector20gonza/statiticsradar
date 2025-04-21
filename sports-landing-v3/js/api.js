@@ -1,9 +1,12 @@
 export async function getMatches(sport) {
+  
   const today = new Date().toISOString().split('T')[0];
-  const url = `https://api.sofascore.com/api/v1/sport/${sport}/scheduled-events/${today}`;
+
+  const url = `https://webws.365scores.com/web/games/allscores/?appTypeId=5&langId=14&timezoneName=America/Caracas&userCountryId=110&sports=${sport}&startDate=${today}&endDate=${today}&showOdds=true&onlyMajorGames=true&withTop=true&topBookmaker=16"`;
   const res = await fetch(url);
-  const data = await res.json();
-  return data.events;
+  const {games}= await res.json();
+  console.log("Estructura completa:", JSON.stringify(games, null, 2));
+  return games;
 }
 
 export async function getStats(eventId) {
@@ -13,7 +16,7 @@ export async function getStats(eventId) {
 }
 
 export function getTeamImage(teamId) {
-  return `https://api.sofascore.app/api/v1/team/${teamId}/image`;
+  return `https://imagecache.365scores.com/image/upload/f_png,w_24,h_24,c_limit,q_auto:eco,dpr_3,d_Competitors:default1.png/v4/Competitors/${teamId}"`;
 }
 
 export async function getArticles() {
