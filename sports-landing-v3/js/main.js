@@ -10,7 +10,7 @@ const articlesContainer = document.getElementById('articles');
 const paginationContainer = document.getElementById('pagination');
 
 // --- VARIABLES GLOBALES ---
-let currentSport = 'football';
+let currentSport = '1';
 let allMatches = [];
 let currentPage = 1;
 const matchesPerPage = 10;
@@ -80,11 +80,11 @@ function renderMatches(filter) {
     const awayImg = getTeamImage(match.awayCompetitor.id);
     const scorehomeCompetitor = match.homeCompetitor?.score || 0;
     const scoreawayCompetitor = match.awayCompetitor?.score || 0;
-    const matchTime = new Date(match.startTimestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const matchTime = new Date(match.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const matchState = match.statusText || 'Sin hora';  
- 
+ const competitionDisplayName =match.competitionDisplayName;
     const hasOdds = match.odds?.length > 0;
-
+   
     const score = (matchState === 'inprogress' || matchState === 'finished')
       ? `(${match.homeScore?.current ?? 0} - ${match.awayScore?.current ?? 0})`
       : '';
@@ -92,7 +92,8 @@ function renderMatches(filter) {
     div.innerHTML = `
      
       <div class="teams">
-        <div class="team"><img src="${homeImg}" alt="home">${match.homeCompetitor.name} <div> ${scorehomeCompetitor}</div></div>
+    
+        <div class="team">${competitionDisplayName}<img src="${homeImg}" alt="home">${match.homeCompetitor.name} <div> ${scorehomeCompetitor}</div></div>
       
         <span class="vs">vs</span>
         
@@ -171,9 +172,9 @@ async function toggleDetails(id) {
 
     stats.forEach(group => {
       group.groups.forEach(statGroup => {
-        statGroup.statisticsItems.forEach(item => {
+        statGroup.statistics.forEach(item => {
           const line = document.createElement('div');
-          line.innerHTML = `<strong>${item.name}</strong>: ${item.homeValue} - ${item.awayValue}`;
+          line.innerHTML = `<strong>${item.name}</strong>: ${item.competitorId} `;
           detailDiv.appendChild(line);
         });
       });
@@ -182,6 +183,7 @@ async function toggleDetails(id) {
     detailDiv.innerHTML = 'No se pudieron cargar estadísticas.';
   }
 }
+
 
 // --- CARGA DE ARTÍCULOS DESDE WORDPRESS ---
 async function loadArticles() {
